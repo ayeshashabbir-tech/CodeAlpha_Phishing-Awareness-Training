@@ -1,4 +1,4 @@
-# CodeAlpha_Phishing-Awareness-Training - Task 2
+# CodeAlpha_Phishing-Awareness-Training 
 
 ## 📌 Overview
 This project is a Phishing Awareness Training module created as part of CodeAlpha Cyber Security Internship. The goal is to educate users on how to identify and avoid phishing attacks.
