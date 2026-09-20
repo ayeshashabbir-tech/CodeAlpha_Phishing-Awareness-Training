@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Phishing Awareness Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16202B;
+  --ink-soft:#4A5A69;
+  --paper:#E7ECF1;
+  --card:#FFFFFF;
+  --line:#CBD5DF;
+  --line-soft:#E1E7ED;
+  --blue:#23456B;
+  --blue-ink:#1B3654;
+  --red:#B32430;
+  --red-bg:#FBECEC;
+  --green:#1D6B57;
+  --green-bg:#E7F2EE;
+  --amber:#9A6B0B;
+  --amber-bg:#FBF1DC;
+  --shadow:0 1px 0 rgba(22,32,43,.06), 0 8px 24px -16px rgba(22,32,43,.45);
+  --radius:6px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#DDE5EC;
+    --ink-soft:#93A3B2;
+    --paper:#111921;
+    --card:#1A242E;
+    --line:#32404E;
+    --line-soft:#26313C;
+    --blue:#8FB6E0;
+    --blue-ink:#A9C8EA;
+    --red:#F08B90;
+    --red-bg:#331B1E;
+    --green:#6FC9AD;
+    --green-bg:#16302A;
+    --amber:#E0B457;
+    --amber-bg:#312813;
+    --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#DDE5EC;
+  --ink-soft:#93A3B2;
+  --paper:#111921;
+  --card:#1A242E;
+  --line:#32404E;
+  --line-soft:#26313C;
+  --blue:#8FB6E0;
+  --blue-ink:#A9C8EA;
+  --red:#F08B90;
+  --red-bg:#331B1E;
+  --green:#6FC9AD;
+  --green-bg:#16302A;
+  --amber:#E0B457;
+  --amber-bg:#312813;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 10px 26px -18px rgba(0,0,0,.9);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;}
+*,*::before,*::after{box-sizing:inherit;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.ui{font-family:"Space Grotesk","Helvetica Neue",Arial,sans-serif;}
+code,kbd,.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+a{color:var(--blue);}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:3px;}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px;}
+.masthead{
+  border-bottom:1px solid var(--line);
+  padding:26px 0 18px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between;
+}
+.brand{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1rem;letter-spacing:.01em;margin:0;}
+.brand span{color:var(--ink-soft);font-weight:500;}
+.meterline{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk",sans-serif;font-size:.82rem;color:var(--ink-soft);}
+.meter{width:130px;height:5px;background:var(--line);border-radius:99px;overflow:hidden;}
+.meter i{display:block;height:100%;width:0;background:var(--green);transition:width .4s ease;}
+.themebtn{
+  font-family:"Space Grotesk",sans-serif;font-size:.8rem;
+  background:transparent;border:1px solid var(--line);color:var(--ink-soft);
+  padding:5px 11px;border-radius:99px;cursor:pointer;
+}
+.themebtn:hover{border-color:var(--blue);color:var(--blue);}
+
+.layout{display:grid;grid-template-columns:232px minmax(0,1fr);gap:48px;padding-top:34px;}
+@media (max-width:920px){.layout{grid-template-columns:1fr;gap:24px;}}
+
+/* ---------- contents rail ---------- */
+.rail{position:sticky;top:24px;align-self:start;}
+.rail h2{font-size:.78rem;font-weight:500;color:var(--ink-soft);margin:0 0 12px;}
+.rail ol{list-style:none;margin:0;padding:0;counter-reset:ch;}
+.rail li{counter-increment:ch;}
+.rail button{
+  display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;
+  background:none;border:0;padding:7px 8px;border-radius:var(--radius);cursor:pointer;
+  font-family:"Space Grotesk",sans-serif;font-size:.85rem;line-height:1.35;color:var(--ink-soft);
+}
+.rail button::before{content:counter(ch);font-size:.72rem;width:15px;flex:none;color:var(--line);font-variant-numeric:tabular-nums;}
+.rail button:hover{background:var(--line-soft);color:var(--ink);}
+.rail button[aria-current="true"]{background:var(--card);color:var(--ink);box-shadow:var(--shadow);}
+.rail button[aria-current="true"]::before{color:var(--blue);}
+.rail li.done button::before{content:"✓";color:var(--green);}
+@media (max-width:920px){
+  .rail{position:static;}
+  .rail ol{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin;}
+  .rail li{flex:none;}
+  .rail button{white-space:nowrap;border:1px solid var(--line);}
+}
+
+/* ---------- chapters ---------- */
+.chapter{display:none;}
+.chapter.on{display:block;}
+.chapter h1{
+  font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.08;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;max-width:22ch;
+}
+.kicker{font-family:"Space Grotesk",sans-serif;font-size:.8rem;color:var(--ink-soft);margin:0 0 14px;}
+.chapter p{max-width:68ch;}
+.lede{font-size:1.14rem;color:var(--ink);max-width:62ch;}
+.chapter h3{font-size:1.06rem;margin:34px 0 8px;}
+.chapter ul{max-width:68ch;padding-left:1.15em;}
+.chapter li{margin-bottom:.35em;}
+
+/* ---------- hero stamp ---------- */
+.hero{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px 24px 26px;margin:22px 0 30px;overflow:hidden;
+}
+.stamp{
+  position:absolute;right:14px;top:18px;width:132px;height:132px;pointer-events:none;
+  transform:rotate(-16deg) scale(2.4);opacity:0;
+  animation:slam .5s cubic-bezier(.2,1.5,.4,1) .75s forwards;
+}
+@keyframes slam{to{transform:rotate(-16deg) scale(1);opacity:.9;}}
+@media (prefers-reduced-motion: reduce){
+  .stamp{animation:none;opacity:.9;transform:rotate(-16deg) scale(1);}
+  *{transition-duration:.001s !important;}
+}
+@media (max-width:620px){.stamp{width:92px;height:92px;right:6px;top:auto;bottom:10px;}}
+
+/* ---------- mail chrome ---------- */
+.mail{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin:20px 0;overflow:hidden;}
+.mail-bar{display:flex;gap:7px;align-items:center;padding:9px 13px;border-bottom:1px solid var(--line-soft);background:var(--line-soft);}
+.dot{width:9px;height:9px;border-radius:99px;background:var(--line);}
+.mail-bar b{font-family:"Space Grotesk",sans-serif;font-size:.74rem;font-weight:500;color:var(--ink-soft);margin-left:6px;}
+.mail-hdr{padding:14px 18px;border-bottom:1px solid var(--line-soft);font-family:"IBM Plex Mono",monospace;font-size:.82rem;line-height:1.85;word-break:break-word;}
+.mail-hdr .k{color:var(--ink-soft);display:inline-block;min-width:66px;}
+.mail-body{padding:18px;max-width:none;}
+.mail-body p{margin:0 0 .9em;max-width:62ch;}
+
+/* clickable clue */
+.clue{
+  background:transparent;border:0;padding:1px 3px;margin:0 -2px;cursor:pointer;
+  font:inherit;color:inherit;border-bottom:2px dotted var(--blue);border-radius:3px;
+}
+.clue:hover{background:var(--line-soft);}
+.clue.found{background:var(--red-bg);border-bottom:2px solid var(--red);color:var(--ink);}
+.cluecount{font-family:"Space Grotesk",sans-serif;font-size:.84rem;color:var(--ink-soft);margin:0 0 4px;}
+.cluebox{
+  border-left:3px solid var(--red);background:var(--red-bg);padding:12px 16px;border-radius:0 var(--radius) var(--radius) 0;
+  margin:14px 0 0;font-size:.95rem;min-height:58px;
+}
+.cluebox b{font-family:"Space Grotesk",sans-serif;display:block;font-size:.88rem;margin-bottom:2px;}
+.cluebox.idle{border-left-color:var(--line);background:var(--line-soft);color:var(--ink-soft);}
+
+/* ---------- exercise cards ---------- */
+.ex{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px;margin:18px 0;}
+.ex-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-family:"Space Grotesk",sans-serif;font-size:.8rem;color:var(--ink-soft);margin-bottom:10px;}
+.ex .from{font-family:"IBM Plex Mono",monospace;font-size:.82rem;word-break:break-all;}
+.ex .subj{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1rem;margin:6px 0 6px;}
+.ex .snip{font-size:.97rem;margin:0 0 12px;color:var(--ink);}
+.choices{display:flex;gap:8px;flex-wrap:wrap;}
+.btn{
+  font-family:"Space Grotesk",sans-serif;font-size:.86rem;font-weight:500;
+  background:var(--card);color:var(--ink);border:1px solid var(--line);
+  padding:8px 14px;border-radius:99px;cursor:pointer;
+}
+.btn:hover{border-color:var(--blue);color:var(--blue);}
+.btn[disabled]{opacity:.45;cursor:default;}
+.btn[disabled]:hover{border-color:var(--line);color:var(--ink);}
+.btn.solid{background:var(--blue);border-color:var(--blue);color:var(--card);}
+.btn.solid:hover{opacity:.88;color:var(--card);}
+.verdict{margin-top:12px;padding:11px 14px;border-radius:var(--radius);font-size:.94rem;border-left:3px solid;}
+.verdict.good{background:var(--green-bg);border-color:var(--green);}
+.verdict.bad{background:var(--red-bg);border-color:var(--red);}
+.verdict b{font-family:"Space Grotesk",sans-serif;}
+.tally{font-family:"Space Grotesk",sans-serif;font-size:.86rem;color:var(--ink-soft);margin-top:14px;}
+
+/* ---------- url exercise ---------- */
+.urlrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line-soft);}
+.urlrow:last-of-type{border-bottom:0;}
+.urlrow .u{font-family:"IBM Plex Mono",monospace;font-size:.86rem;word-break:break-all;flex:1 1 260px;}
+.urlnote{font-size:.9rem;color:var(--ink-soft);flex-basis:100%;margin:0;}
+.urlnote.bad{color:var(--red);}
+.urlnote.good{color:var(--green);}
+
+/* ---------- tactic grid ---------- */
+.tactics{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:20px 0;}
+.tactic{
+  text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 15px;cursor:pointer;font:inherit;color:inherit;
+}
+.tactic:hover{border-color:var(--blue);}
+.tactic h4{margin:0 0 4px;font-size:.98rem;}
+.tactic p{margin:0;font-size:.9rem;color:var(--ink-soft);max-width:none;}
+.tactic .script{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line-soft);font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--red);}
+.tactic[aria-expanded="true"]{box-shadow:var(--shadow);}
+.tactic[aria-expanded="true"] .script{display:block;}
+
+/* ---------- cases ---------- */
+.case{border-left:2px solid var(--line);padding:0 0 26px 22px;position:relative;}
+.case::before{content:"";position:absolute;left:-5px;top:9px;width:8px;height:8px;border-radius:99px;background:var(--blue);}
+.case:last-child{padding-bottom:4px;}
+.case h3{margin:0 0 2px;font-size:1.05rem;}
+.case .meta{font-family:"Space Grotesk",sans-serif;font-size:.8rem;color:var(--ink-soft);margin:0 0 6px;}
+.case .loss{color:var(--red);font-weight:500;}
+.case p{margin:0 0 6px;font-size:.97rem;}
+.lesson{font-family:"Space Grotesk",sans-serif;font-size:.86rem;color:var(--green);}
+
+/* ---------- practice / steps ---------- */
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:20px 0;}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;}
+.rule h4{margin:0 0 5px;font-size:.98rem;}
+.rule p{margin:0;font-size:.92rem;color:var(--ink-soft);max-width:none;}
+.steps{counter-reset:s;list-style:none;padding:0;margin:20px 0;max-width:68ch;}
+.steps li{counter-increment:s;display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-soft);}
+.steps li::before{content:counter(s);font-family:"Space Grotesk",sans-serif;font-weight:700;color:var(--blue);flex:none;width:22px;font-variant-numeric:tabular-nums;}
+.steps b{font-family:"Space Grotesk",sans-serif;display:block;}
+.callout{background:var(--amber-bg);border-left:3px solid var(--amber);padding:13px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:22px 0;font-size:.97rem;max-width:68ch;}
+
+/* ---------- quiz ---------- */
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;margin:22px 0;}
+.qnum{font-family:"Space Grotesk",sans-serif;font-size:.8rem;color:var(--ink-soft);margin:0 0 8px;}
+.qtext{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.1rem;line-height:1.35;margin:0 0 16px;}
+.opts{display:grid;gap:8px;margin-bottom:6px;}
+.opt{
+  text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:11px 14px;cursor:pointer;font-family:"Source Serif 4",serif;font-size:1rem;color:var(--ink);
+}
+.opt:hover{border-color:var(--blue);}
+.opt.right{background:var(--green-bg);border-color:var(--green);}
+.opt.wrong{background:var(--red-bg);border-color:var(--red);}
+.opt[disabled]{cursor:default;}
+.score{font-family:"Space Grotesk",sans-serif;font-size:3.2rem;font-weight:700;line-height:1;margin:0 0 4px;}
+.score small{font-size:1.1rem;color:var(--ink-soft);font-weight:500;}
+
+/* ---------- pager ---------- */
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:44px;padding-top:20px;border-top:1px solid var(--line);}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <p class="brand">Phishing Awareness Training <span>· 9 lessons · about 25 minutes</span></p>
+  <div class="meterline">
+    <span id="meterlabel">0 of 9 done</span>
+    <span class="meter" role="progressbar" aria-labelledby="meterlabel" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><i id="meterfill"></i></span>
+    <button class="themebtn ui" id="themebtn" type="button">Dark</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <nav class="rail" aria-label="Lessons">
+    <h2 class="ui">Contents</h2>
+    <ol id="rail"></ol>
+  </nav>
+
+  <main id="main">
+
+  <!-- 1 -->
+  <section class="chapter on" data-ch="0" aria-labelledby="h0">
+    <p class="kicker">Lesson 1</p>
+    <h1 id="h0">One click is all an attacker needs</h1>
+    <div class="hero">
+      <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="55" fill="none" stroke="var(--red)" stroke-width="4"/>
+        <circle cx="60" cy="60" r="46" fill="none" stroke="var(--red)" stroke-width="1.5"/>
+        <path id="arcTop" d="M60,20 a40,40 0 0,1 0,80 a40,40 0 0,1 0,-80" fill="none"/>
+        <text fill="var(--red)" font-family="Space Grotesk, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5">
+          <textPath href="#arcTop" startOffset="6%">DO NOT TRUST</textPath>
+        </text>
+        <text x="60" y="58" text-anchor="middle" fill="var(--red)" font-family="Space Grotesk, sans-serif" font-size="17" font-weight="700">PHISH</text>
+        <line x1="24" y1="66" x2="96" y2="66" stroke="var(--red)" stroke-width="1.5"/>
+        <text x="60" y="80" text-anchor="middle" fill="var(--red)" font-family="IBM Plex Mono, monospace" font-size="9">REPORTED</text>
+      </svg>
+      <p class="lede" style="max-width:46ch;margin:4px 0 0;">Phishing is not a technology problem that firewalls solve. It is a message, written by a person, designed to make you act before you think.</p>
+    </div>
+
+    <p>Most serious breaches still start with a message: an email, a text, a phone call, a chat request, a QR code on a parking meter. The attacker is not breaking encryption. They are asking you politely, and urgently, to hand over something you already have access to — a password, a one-time code, an approval, a payment.</p>
+
+    <p>That is why you matter here. Security tools filter the obvious attempts; the ones that reach your inbox are the ones that got through. You are not the weakest link. You are the last checkpoint, and the only one that can notice something feels wrong.</p>
+
+    <h3>What phishing is trying to get</h3>
+    <ul>
+      <li><b>Credentials</b> — your username, password, and the six-digit code that protects them.</li>
+      <li><b>Money</b> — an invoice paid to a new bank account, a gift-card purchase, a wire transfer.</li>
+      <li><b>A foothold</b> — an attachment or a link that installs something, so the attacker can move through the network at their own pace.</li>
+      <li><b>Information</b> — an org chart, a supplier list, a travel schedule. Dull on its own, and perfect fuel for the next, more convincing message.</li>
+    </ul>
+
+    <div class="callout">
+      <b class="ui">A note on spelling mistakes.</b> Old training said to look for bad grammar. That signal has largely gone: attackers now write fluent, on-brand copy in any language. Judge the <i>request</i> and the <i>sender</i>, not the prose.
+    </div>
+
+    <h3>The four shapes it arrives in</h3>
+    <ul>
+      <li><b>Bulk phishing</b> — the same message to millions, hoping for a small percentage.</li>
+      <li><b>Spear phishing</b> — written for you, using your job title, your manager's name, a project you posted about.</li>
+      <li><b>Whaling</b> — aimed at executives and finance staff, where a single approval is worth millions.</li>
+      <li><b>Business email compromise</b> — no malicious link at all, just a believable request from a real or spoofed colleague, supplier, or lawyer.</li>
+    </ul>
+  </section>
+
+  <!-- 2 -->
+  <section class="chapter" data-ch="1" aria-labelledby="h1">
+    <p class="kicker">Lesson 2</p>
+    <h1 id="h1">Take a phishing email apart</h1>
+    <p class="lede">Below is a message modelled on a real credential-harvesting campaign. Seven things are wrong with it. Click any part of the message that looks suspicious.</p>
+
+    <p class="cluecount ui" id="cluecount">0 of 7 clues found</p>
+
+    <div class="mail">
+      <div class="mail-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><b>Inbox — 1 new message</b></div>
+      <div class="mail-hdr">
+        <div><span class="k">From</span> <button class="clue" data-clue="0">Microsoft 365 Security &lt;security@microsofft-verify.com&gt;</button></div>
+        <div><span class="k">Reply-To</span> <button class="clue" data-clue="1">helpdesk.ticket9921@mail.ru</button></div>
+        <div><span class="k">To</span> <button class="clue" data-clue="2">undisclosed-recipients:;</button></div>
+        <div><span class="k">Subject</span> <button class="clue" data-clue="3">ACTION REQUIRED: Your mailbox will be deleted in 24 hours</button></div>
+      </div>
+      <div class="mail-body">
+        <p><button class="clue" data-clue="4">Dear User,</button></p>
+        <p>Our records show that your mailbox has exceeded its storage quota and has been flagged by the automated compliance system. <button class="clue" data-clue="5">If you do not re-validate your password within 24 hours, all messages and files will be permanently deleted and your account access will be revoked without further notice.</button></p>
+        <p>To keep your account active, confirm your credentials here:<br>
+        <button class="clue" data-clue="6"><span class="mono">https://login.microsoftonline.com.account-verify.co/secure</span></button></p>
+        <p>Thank you,<br>The Microsoft 365 Security Team</p>
+      </div>
+    </div>
+
+    <div class="cluebox idle" id="cluebox" role="status" aria-live="polite">
+      <b>Nothing selected yet</b>Click any suspicious part of the message above and the reason will appear here.
+    </div>
+
+    <h3>The checklist behind those clues</h3>
+    <ul>
+      <li><b>Sender domain</b> — read the part after the <span class="mono">@</span>, character by character. A display name is free to set; a domain has to be bought.</li>
+      <li><b>Reply-To</b> — if replies go somewhere other than the sender, someone wants your answer routed elsewhere.</li>
+      <li><b>Addressing</b> — a real provider knows your name and writes to you alone.</li>
+      <li><b>A deadline</b> — countdowns exist to stop you checking.</li>
+      <li><b>A threat</b> — loss of access, loss of files, loss of pay. Fear shortens thinking.</li>
+      <li><b>The link's real domain</b> — everything before the first single slash is what counts.</li>
+      <li><b>The ask itself</b> — no legitimate provider asks you to confirm a password by email. Not once, not ever.</li>
+    </ul>
+  </section>
+
+  <!-- 3 -->
+  <section class="chapter" data-ch="2" aria-labelledby="h2">
+    <p class="kicker">Lesson 3 · Exercise</p>
+    <h1 id="h2">Report it, or leave it?</h1>
+    <p class="lede">Six messages, each one landing in an ordinary workday. Decide on each before you read the answer.</p>
+    <div id="spot"></div>
+    <p class="tally ui" id="spottally">Answered 0 of 6.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="chapter" data-ch="3" aria-labelledby="h3">
+    <p class="kicker">Lesson 4</p>
+    <h1 id="h3">Fake websites and the links that lead there</h1>
+    <p class="lede">A cloned login page is trivial to build. Modern kits copy the branding, the fonts, the password-reset flow, and even relay your one-time code to the real site in real time. Your defence is the address bar, read carefully, before you type anything.</p>
+
+    <h3>How to read a web address</h3>
+    <p>Find <span class="mono">//</span>, then read forward to the <b>first single slash</b>. The last two labels before that slash are the real owner of the site. Everything else — subdomains, folders, parameters — is decoration the attacker controls.</p>
+
+    <div class="mail">
+      <div class="mail-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><b>Address bar anatomy</b></div>
+      <div class="mail-body">
+        <p class="mono" style="font-size:.95rem;word-break:break-all;">https://login.<b style="color:var(--red)">account-verify.co</b>/microsoft/secure?id=88123</p>
+        <p style="font-size:.94rem;color:var(--ink-soft);margin:0;">Owner of this site: <span class="mono">account-verify.co</span>. The word "login" is a subdomain anyone can create, and "/microsoft/" is just a folder name.</p>
+      </div>
+    </div>
+
+    <h3>Seven tricks, and what gives them away</h3>
+    <div class="rules">
+      <div class="rule"><h4>Subdomain padding</h4><p><span class="mono">paypal.com.secure-login.xyz</span> is owned by <span class="mono">secure-login.xyz</span>. Read right to left.</p></div>
+      <div class="rule"><h4>Typosquatting</h4><p><span class="mono">rnicrosoft.com</span> uses r-n to imitate m. Also doubled letters and swapped vowels.</p></div>
+      <div class="rule"><h4>Lookalike characters</h4><p>Cyrillic and Greek letters can render as Latin ones. A domain starting <span class="mono">xn--</span> in the address bar is a red flag.</p></div>
+      <div class="rule"><h4>Wrong suffix</h4><p>The brand you know is <span class="mono">.com</span>, the link is <span class="mono">.co</span>, <span class="mono">.cm</span>, or <span class="mono">.support</span>.</p></div>
+      <div class="rule"><h4>Shorteners and QR codes</h4><p>Both hide the destination completely. Expand a short link before opening; treat unexpected QR codes as untrusted links.</p></div>
+      <div class="rule"><h4>The padlock proves nothing</h4><p>HTTPS means the connection is encrypted, not that the site is honest. Phishing pages get free certificates too.</p></div>
+      <div class="rule"><h4>Silent password manager</h4><p>Your password manager matches on exact domain. If it will not autofill a site you use daily, believe the tool, not the page.</p></div>
+    </div>
+
+    <h3>Try it: real or fake?</h3>
+    <div class="ex" id="urlex"></div>
+    <p class="tally ui" id="urltally">Answered 0 of 7.</p>
+  </section>
+
+  <!-- 5 -->
+  <section class="chapter" data-ch="4" aria-labelledby="h4">
+    <p class="kicker">Lesson 5</p>
+    <h1 id="h4">The social engineering playbook</h1>
+    <p class="lede">Phishing works on people, not machines. Every campaign leans on a small set of psychological levers. Once you can name the lever being pulled, the message loses most of its power. Select a tactic to hear how it sounds in practice.</p>
+
+    <div class="tactics" id="tactics"></div>
+
+    <h3>Beyond email</h3>
+    <ul>
+      <li><b>Vishing</b> — a phone call from "IT" or "the bank", often after an email to make it credible. Voice cloning has made a familiar voice worthless as proof.</li>
+      <li><b>Smishing</b> — texts about parcels, tolls, tax refunds, or a manager's "new number".</li>
+      <li><b>Quishing</b> — a QR code in a PDF, poster, or parking meter that carries the link past email filters and onto your personal phone.</li>
+      <li><b>MFA fatigue</b> — repeated push notifications at 2am until you approve one to make them stop. Never approve a prompt you did not trigger.</li>
+      <li><b>Consent phishing</b> — a real login page, followed by a request to grant an app permission to read your mail. No password stolen, full access given.</li>
+      <li><b>Callback phishing</b> — an invoice for something you did not buy, with a number to call and dispute it. The number is theirs.</li>
+      <li><b>Baiting and tailgating</b> — a USB stick left in the car park, or a friendly stranger with full hands at a badge-controlled door.</li>
+    </ul>
+
+    <div class="callout">
+      <b class="ui">The tell that survives every disguise.</b> Almost every attack ends with one of three requests: send money, reveal a credential or code, or open this thing. Any message combining <i>urgency</i> with one of those three deserves a second channel of verification, no matter who appears to have sent it.
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="chapter" data-ch="5" aria-labelledby="h5">
+    <p class="kicker">Lesson 6</p>
+    <h1 id="h5">Attacks that actually happened</h1>
+    <p class="lede">None of these organisations lacked security budget. Each was reached through a person doing their job.</p>
+    <div id="cases"></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="chapter" data-ch="6" aria-labelledby="h6">
+    <p class="kicker">Lesson 7</p>
+    <h1 id="h6">Habits that stop it</h1>
+    <p class="lede">Knowing the theory does not protect anyone. These eight habits do, because they work even when the message is convincing and you are busy.</p>
+
+    <div class="rules">
+      <div class="rule"><h4>Verify on a second channel</h4><p>Unexpected payment or credential request? Call back on a number you already had — from the intranet or a previous invoice, never from the message.</p></div>
+      <div class="rule"><h4>Never follow a link to log in</h4><p>Open a new tab and type the address yourself, or use your own bookmark. This one habit defeats most credential phishing.</p></div>
+      <div class="rule"><h4>Let the password manager decide</h4><p>Store every work login in it and stop typing passwords by hand. It refuses to autofill lookalike domains, which makes it a detector as much as a vault.</p></div>
+      <div class="rule"><h4>Use phishing-resistant MFA</h4><p>Passkeys and hardware security keys are tied to the real domain, so a cloned page cannot use them. Prefer them over SMS and app codes.</p></div>
+      <div class="rule"><h4>Treat codes like passwords</h4><p>No colleague, bank, or helpdesk will ever need your one-time code. Reading it aloud hands over your account.</p></div>
+      <div class="rule"><h4>Slow down on urgency</h4><p>Make deadline pressure your trigger to pause rather than hurry. Nothing legitimate collapses because you took ten minutes to check.</p></div>
+      <div class="rule"><h4>Report, do not just delete</h4><p>Use the report button. Deleting protects you alone; reporting lets security pull the same message from everyone else's inbox.</p></div>
+      <div class="rule"><h4>Keep work and personal separate</h4><p>Do not forward work mail to personal accounts, and be sparing with what you publish about your role — it is the raw material for spear phishing.</p></div>
+    </div>
+
+    <div class="callout">
+      <b class="ui">If you are the finance approver.</b> Any change to supplier bank details is a verification event, always, with no exceptions for urgency or seniority. Call the supplier on the number from the signed contract and confirm the change aloud.
+    </div>
+  </section>
+
+  <!-- 8 -->
+  <section class="chapter" data-ch="7" aria-labelledby="h7">
+    <p class="kicker">Lesson 8</p>
+    <h1 id="h7">You clicked. Now what?</h1>
+    <p class="lede">People who report quickly limit the damage. People who stay quiet out of embarrassment turn a small incident into a large one. Speed matters far more than blame.</p>
+
+    <ol class="steps">
+      <li><div><b>Stop interacting</b>Close the page. Do not enter anything else, do not approve any further prompt, and do not reply to the message.</div></li>
+      <li><div><b>Report it immediately</b>Contact your security team or helpdesk right away, even if you only suspect it, and even if it is the middle of the night. Keep the original message so they can trace it.</div></li>
+      <li><div><b>Change the password from a device you trust</b>If you entered credentials, change that password and any other account where you reused it. Use a different device if you think the first one is compromised.</div></li>
+      <li><div><b>Sign out everywhere</b>Revoke active sessions and check for any app permissions, forwarding rules, or recovery addresses added to your account. Attackers set those up within minutes.</div></li>
+      <li><div><b>Disconnect if something was opened</b>If you opened an attachment or downloaded a file, disconnect from the network and let IT examine the device rather than running a scan and assuming it is clean.</div></li>
+      <li><div><b>Involve the bank early</b>If money moved, tell your finance team and the bank at once. Wire transfers can sometimes be recalled within hours, rarely after that.</div></li>
+      <li><div><b>Watch for the follow-up</b>A successful attack is often followed by a second, more personalised one. Expect it, and warn the colleagues most likely to be targeted next.</div></li>
+    </ol>
+
+    <div class="callout">
+      <b class="ui">For managers.</b> The reporting rate matters more than the click rate. If reporting a mistake is treated as a good day's work rather than a failure, you find out in minutes instead of months.
+    </div>
+  </section>
+
+  <!-- 9 -->
+  <section class="chapter" data-ch="8" aria-labelledby="h8">
+    <p class="kicker">Lesson 9 · Assessment</p>
+    <h1 id="h8">Final quiz</h1>
+    <p class="lede">Ten questions drawn from everything above. You need 8 correct to pass, and you can retake it as often as you like.</p>
+    <div class="quiz" id="quiz"></div>
+  </section>
+
+  <div class="pager">
+    <button class="btn ui" id="prev" type="button">Back</button>
+    <button class="btn solid ui" id="next" type="button">Next lesson</button>
+  </div>
+
+  </main>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- storage (guarded) ---------------- */
+var KEY="phish-training-v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+function save(o){try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+var state=load();
+state.done=state.done||[];
+
+/* ---------------- theme ---------------- */
+var tbtn=document.getElementById("themebtn");
+function applyTheme(t){
+  if(t){document.documentElement.setAttribute("data-theme",t);}
+  else{document.documentElement.removeAttribute("data-theme");}
+  var dark = t==="dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  tbtn.textContent = dark ? "Light" : "Dark";
+}
+applyTheme(state.theme);
+tbtn.addEventListener("click",function(){
+  var dark = document.documentElement.getAttribute("data-theme")==="dark" ||
+    (!document.documentElement.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  state.theme = dark ? "light" : "dark";
+  applyTheme(state.theme); save(state);
+});
+
+/* ---------------- navigation ---------------- */
+var titles=["One click is all it takes","Take an email apart","Report it, or leave it?","Fake sites and links",
+            "Social engineering","Attacks that happened","Habits that stop it","You clicked. Now what?","Final quiz"];
+var chapters=[].slice.call(document.querySelectorAll(".chapter"));
+var railEl=document.getElementById("rail");
+var cur=0;
+
+titles.forEach(function(t,i){
+  var li=document.createElement("li");
+  var b=document.createElement("button");
+  b.type="button"; b.className="ui"; b.textContent=t;
+  b.addEventListener("click",function(){go(i,true);});
+  li.appendChild(b); railEl.appendChild(li);
+});
+var railBtns=[].slice.call(railEl.querySelectorAll("button"));
+var railLis=[].slice.call(railEl.querySelectorAll("li"));
+
+function markDone(i){
+  if(state.done.indexOf(i)===-1){state.done.push(i);save(state);}
+  paint();
+}
+function paint(){
+  railBtns.forEach(function(b,i){b.setAttribute("aria-current", i===cur?"true":"false");});
+  railLis.forEach(function(li,i){li.classList.toggle("done", state.done.indexOf(i)>-1);});
+  var n=state.done.length;
+  document.getElementById("meterfill").style.width=(n/9*100)+"%";
+  document.getElementById("meterlabel").textContent=n+" of 9 done";
+  document.querySelector(".meter").setAttribute("aria-valuenow",n);
+  document.getElementById("prev").style.visibility = cur===0 ? "hidden":"visible";
+  document.getElementById("next").textContent = cur===8 ? "Back to start" : "Next lesson";
+}
+function go(i,scroll){
+  markDone(cur);
+  cur=(i+9)%9;
+  chapters.forEach(function(c,k){c.classList.toggle("on",k===cur);});
+  state.last=cur; save(state); paint();
+  if(scroll!==false){window.scrollTo({top:0,behavior:"smooth"});}
+}
+document.getElementById("next").addEventListener("click",function(){go(cur+1);});
+document.getElementById("prev").addEventListener("click",function(){go(cur-1);});
+paint();
+
+/* ---------------- lesson 2: clue hunt ---------------- */
+var clues=[
+  ["The sender domain is misspelled","Read it letter by letter: microsofft-verify.com. The display name \"Microsoft 365 Security\" is free text that anyone can set. The domain after the @ is the only part that costs money and can be checked."],
+  ["Replies go somewhere else entirely","The Reply-To address is an unrelated free mail account. Whoever sent this wants your response routed to an inbox they control, away from the spoofed sender."],
+  ["You are not really addressed","\"undisclosed-recipients\" means this went out in bulk. Your provider sends account notices to you alone, with your address in the To field."],
+  ["A countdown in the subject line","Deadlines are the attacker's main tool. They exist to stop you forwarding the message to IT or checking the account by another route."],
+  ["A generic greeting","Microsoft knows your name. \"Dear User\" is what you write when one message has to fit a million recipients."],
+  ["A threat of losing everything","Permanent deletion, revoked access, no further notice. Fear narrows attention to the escape route being offered, which is exactly the link they want clicked."],
+  ["The real domain is not Microsoft","Read to the first single slash: the owner is account-verify.co, and login.microsoftonline.com is just a subdomain they added to look right. Also note that no provider ever asks you to confirm a password by email."]
+];
+var found=[];
+var cluebox=document.getElementById("cluebox");
+[].slice.call(document.querySelectorAll(".clue")).forEach(function(b){
+  b.addEventListener("click",function(){
+    var i=+b.dataset.clue;
+    b.classList.add("found");
+    if(found.indexOf(i)===-1){found.push(i);}
+    document.getElementById("cluecount").textContent=found.length+" of 7 clues found";
+    cluebox.classList.remove("idle");
+    cluebox.innerHTML="<b>"+clues[i][0]+"</b>"+clues[i][1];
+    if(found.length===7){markDone(1);}
+  });
+});
+
+/* ---------------- lesson 3: spot the phish ---------------- */
+var mails=[
+  {from:"IT Service Desk <it-servicedesk@yourcompany-support.net>",subj:"Password expires today — revalidate now",
+   snip:"Our system shows your network password expires in 2 hours. Click below and sign in with your current password to extend it for 90 days.",
+   phish:true, why:"The domain is a lookalike, not your company's own. Real IT changes passwords through the tool you already use, and no genuine process asks you to type your current password into a page reached from an email."},
+  {from:"Priya Raman <p.raman@yourcompany.com>",subj:"Re: Q3 handover notes",
+   snip:"Thanks for the draft — I've added comments in the shared doc under the Risks section. Can we go through it in tomorrow's stand-up?",
+   phish:false, why:"It continues a thread you are part of, comes from the correct internal domain, asks for nothing, and refers to a document already in your shared workspace. Ordinary work."},
+  {from:"Daniel Osei, CFO <d.osei.finance@gmail.com>",subj:"Confidential — need this before the board call",
+   snip:"I'm in back-to-back meetings and can't take calls. Please process a payment to a new supplier today and keep it between us until the announcement. Are you at your desk?",
+   phish:true, why:"Classic business email compromise: executive authority, secrecy, urgency, a personal-mail domain, and no calls allowed — precisely so you cannot verify. Secrecy plus payment is the combination to refuse every time."},
+  {from:"DHL Express <tracking@dhl-parcel-notice.info>",subj:"Parcel held — customs fee of $2.99 outstanding",
+   snip:"Your delivery is on hold. Pay the outstanding customs charge within 48 hours to release your parcel, or it will be returned to sender.",
+   phish:true, why:"A tiny fee is designed to feel too small to check while harvesting a full card number. The domain is not dhl.com, and the parcel is one you never ordered. Track deliveries on the carrier's own site."},
+  {from:"Okta <noreply@okta.com>",subj:"New sign-in from Bucharest, Romania",
+   snip:"We noticed a sign-in from a new location. If this was you, no action is needed. If not, secure your account from the Okta dashboard.",
+   phish:false, why:"A well-formed alert: correct domain, no link required to act, and it tells you to go to the dashboard yourself. Alarming content does not make a message fake. Confirm by opening Okta directly, and if the sign-in was not you, report it."},
+  {from:"Sarah Whitfield <s.whitfield@yourcompany.com>",subj:"Quick favour — are you free?",
+   snip:"Hi, I'm stuck in a client session. I need you to buy four £100 gift cards for a client thank-you and send me the codes by photo. I'll expense it this afternoon.",
+   phish:true, why:"Gift-card codes are untraceable cash, which is why this scam never dies. Even from a genuine internal address — an account can be compromised — the request itself is the red flag. Call her on a number you already have."}
+];
+var spotEl=document.getElementById("spot"), spotAns=0, spotRight=0;
+mails.forEach(function(m,i){
+  var d=document.createElement("div"); d.className="ex";
+  d.innerHTML='<div class="ex-head"><span>Message '+(i+1)+' of 6</span></div>'+
+    '<div class="from">'+m.from.replace(/</g,"&lt;")+'</div>'+
+    '<div class="subj">'+m.subj+'</div>'+
+    '<p class="snip">'+m.snip+'</p>'+
+    '<div class="choices">'+
+      '<button class="btn ui" data-v="1" type="button">Report as phishing</button>'+
+      '<button class="btn ui" data-v="0" type="button">Looks legitimate</button>'+
+    '</div><div class="v"></div>';
+  spotEl.appendChild(d);
+  var btns=[].slice.call(d.querySelectorAll("[data-v]"));
+  btns.forEach(function(b){
+    b.addEventListener("click",function(){
+      var said = b.dataset.v==="1";
+      var ok = said===m.phish;
+      btns.forEach(function(x){x.disabled=true;});
+      var v=d.querySelector(".v");
+      v.className="v verdict "+(ok?"good":"bad");
+      v.innerHTML="<b>"+(ok?"Correct — ":"Not quite — ")+(m.phish?"this is phishing.":"this one is genuine.")+"</b> "+m.why;
+      spotAns++; if(ok){spotRight++;}
+      document.getElementById("spottally").textContent="Answered "+spotAns+" of 6 · "+spotRight+" correct.";
+      if(spotAns===6){markDone(2);}
+    });
+  });
+});
+
+/* ---------------- lesson 4: url check ---------------- */
+var urls=[
+  {u:"https://accounts.google.com/signin",fake:false,why:"Owner is google.com, reached through its normal accounts subdomain. Genuine."},
+  {u:"https://www.paypal.com.secure-login.xyz/verify",fake:true,why:"Read to the first single slash: the owner is secure-login.xyz. Everything before it, paypal.com included, is just a subdomain they created."},
+  {u:"https://www.linkedin.com/feed/",fake:false,why:"Owner is linkedin.com, and /feed/ is an ordinary path on that site. Genuine."},
+  {u:"https://micros0ft-support.com/reset",fake:true,why:"A zero replaces the o, and the real support domain is not this. Digit-for-letter swaps are the most common typosquat."},
+  {u:"https://hr-portal.yourcompany.com/leave",fake:false,why:"A subdomain of your own company's real domain. Subdomains are not suspicious in themselves — only when they are padded in front of someone else's domain."},
+  {u:"https://xn--pypal-4ve.com/login",fake:true,why:"The xn-- prefix means the address contains non-Latin characters that display as familiar letters. A browser showing xn-- is warning you outright."},
+  {u:"https://bit.ly/3xQ1mZr",fake:true,why:"Not necessarily malicious, but unknowable — the destination is hidden. Treat unexpected shortened links as untrusted and expand them before opening."}
+];
+var uEl=document.getElementById("urlex"), uAns=0, uRight=0;
+urls.forEach(function(o,i){
+  var r=document.createElement("div"); r.className="urlrow";
+  r.innerHTML='<span class="u">'+o.u+'</span>'+
+    '<span class="choices"><button class="btn ui" data-f="0" type="button">Genuine</button>'+
+    '<button class="btn ui" data-f="1" type="button">Suspicious</button></span>'+
+    '<p class="urlnote"></p>';
+  uEl.appendChild(r);
+  var bs=[].slice.call(r.querySelectorAll("[data-f]"));
+  bs.forEach(function(b){
+    b.addEventListener("click",function(){
+      var ok=(b.dataset.f==="1")===o.fake;
+      bs.forEach(function(x){x.disabled=true;});
+      var n=r.querySelector(".urlnote");
+      n.className="urlnote "+(ok?"good":"bad");
+      n.textContent=(ok?"Correct. ":"Not quite. ")+o.why;
+      uAns++; if(ok){uRight++;}
+      document.getElementById("urltally").textContent="Answered "+uAns+" of 7 · "+uRight+" correct.";
+      if(uAns===7){markDone(3);}
+    });
+  });
+});
+
+/* ---------------- lesson 5: tactics ---------------- */
+var tactics=[
+  ["Authority","A request from someone you would not question — the CEO, a regulator, the police, the IT department.","\"This is coming from the CFO's office. I need it actioned before close of business.\""],
+  ["Urgency","A deadline that leaves no room to verify, because verification is what kills the attack.","\"The account locks in 2 hours and I can't reopen it once it does.\""],
+  ["Fear","A threatened loss: your files, your access, your job, your money.","\"A policy violation was detected on your account. Failure to respond will be escalated to HR.\""],
+  ["Curiosity","Something you are not supposed to see, which is exactly why you open it.","\"Attached: draft salary bands, final version. Please don't circulate.\""],
+  ["Reward","An offer sized to feel plausible rather than absurd. Small wins are more believable than lottery wins.","\"Your expense claim has been approved. Confirm your bank details to receive payment.\""],
+  ["Familiarity","Names, projects, and tone lifted from LinkedIn, out-of-office replies, and past breaches.","\"Hi — following up from the Riyadh conference last month, here's the deck I promised.\""],
+  ["Social proof","The claim that everyone else has already complied, so hesitating makes you the odd one out.","\"Most of your team completed this yesterday — you're one of the last three.\""],
+  ["Helpfulness","Exploiting the instinct to assist a colleague in difficulty, especially a new one.","\"I'm new and my badge isn't working — could you let me in? My hands are full.\""],
+  ["Consistency","Starting with a harmless yes, then escalating. Agreeing once makes refusing later feel rude.","\"Thanks for confirming your name. Just read me the six-digit code and we're done.\""]
+];
+var tEl=document.getElementById("tactics");
+tactics.forEach(function(t){
+  var b=document.createElement("button");
+  b.type="button"; b.className="tactic"; b.setAttribute("aria-expanded","false");
+  b.innerHTML="<h4>"+t[0]+"</h4><p>"+t[1]+"</p><div class='script'>"+t[2]+"</div>";
+  b.addEventListener("click",function(){
+    var open=b.getAttribute("aria-expanded")==="true";
+    b.setAttribute("aria-expanded", open?"false":"true");
+    if(!open){markDone(4);}
+  });
+  tEl.appendChild(b);
+});
+
+/* ---------------- lesson 6: cases ---------------- */
+var cases=[
+  ["RSA Security","2011 · breach of a security vendor","Two small groups of employees received a spreadsheet titled as a recruitment plan. One message went to junk; an employee retrieved it and opened it. The file carried an exploit that gave attackers a foothold, and data related to the SecurID two-factor product was taken — affecting RSA's own customers downstream.","Lesson: a single retrieved junk message reached a company whose entire business was security."],
+  ["Google and Facebook","2013–2015 · roughly $100 million","A Lithuanian man registered a company using the name of a genuine Asian hardware supplier, then sent both firms convincing invoices, contracts, and letters for equipment they really did buy. Finance teams paid into his accounts for two years. He was later convicted and much, though not all, of the money was recovered.","Lesson: no malware, no links. Only paperwork that looked exactly right."],
+  ["Ubiquiti Networks","2015 · $46.7 million","Attackers impersonated executives and an outside law firm in emails to the finance department, requesting international transfers as part of a supposedly confidential deal. The transfers were made before anyone confirmed the requests by another route.","Lesson: secrecy and seniority together are a warning sign, not a reason to comply."],
+  ["Twitter","2020 · 130 high-profile accounts","Attackers phoned employees pretending to be internal IT and talked them through a credential page, then used internal admin tools to post a cryptocurrency scam from verified accounts including major brands and public figures.","Lesson: the phone is a phishing channel, and a convincing colleague can be a stranger."],
+  ["MGM Resorts","2023 · days of operational shutdown","Callers impersonated an employee to the IT help desk, using details gathered from public profiles, and persuaded staff to reset access. Hotel systems, room keys, and gaming floors were disrupted for days at a cost reported in the hundreds of millions.","Lesson: identity verification at the help desk is a security control, not a formality."]
+];
+var cEl=document.getElementById("cases");
+cases.forEach(function(c){
+  var d=document.createElement("div"); d.className="case";
+  d.innerHTML="<h3>"+c[0]+"</h3><p class='meta loss'>"+c[1]+"</p><p>"+c[2]+"</p><p class='lesson ui'>"+c[3]+"</p>";
+  cEl.appendChild(d);
+});
+
+/* ---------------- lesson 9: quiz ---------------- */
+var Q=[
+ {q:"An email from your bank's exact, correctly spelled domain asks you to log in and confirm a transaction. What is the safest next step?",
+  o:["Click the link, since the sender domain checks out","Open the bank's app or type the address yourself, then check for the alert there","Reply asking whether the message is genuine","Forward it to a colleague for a second opinion and act on their answer"],a:1,
+  e:"Sender addresses can be spoofed, so a correct domain is not proof. Reaching the site independently costs seconds and removes the risk entirely."},
+ {q:"Which part of https://login.microsoftonline.com.verify-id.net/secure tells you who really owns the page?",
+  o:["login.microsoftonline.com","verify-id.net","/secure","The https at the start"],a:1,
+  e:"Read to the first single slash and take the last two labels. Everything in front is a subdomain the attacker created."},
+ {q:"You get repeated MFA push notifications at 2am that you did not trigger. What should you do?",
+  o:["Approve one so they stop and deal with it tomorrow","Deny them, then change your password and report it","Turn the phone off and leave it","Approve it only if the location shown looks like your city"],a:1,
+  e:"Someone already has your password and is pushing you to approve. Denying, changing the password, and reporting is the whole response."},
+ {q:"Which of these is the strongest signal that a login page is fake?",
+  o:["The page has no padlock icon","The branding looks slightly out of date","Your password manager will not autofill it","The page loads more slowly than usual"],a:2,
+  e:"A password manager matches the exact domain, so its refusal is a precise signal. Padlocks and branding can both be faked easily."},
+ {q:"A supplier emails to say their bank details have changed and this month's invoice must go to a new account. What must happen first?",
+  o:["Pay it — the invoice number matches an order you recognise","Reply to the email to confirm the new details","Call the supplier on a number from the signed contract and confirm aloud","Ask a colleague to approve it as a second pair of eyes"],a:2,
+  e:"Replying reaches whoever controls that mailbox. Verification only counts on a channel you chose yourself."},
+ {q:"Someone calls saying they are from IT, knows your manager's name and your project, and asks you to read back a six-digit code to complete a security check. What is going on?",
+  o:["A legitimate check — knowing internal details proves identity","A survey you can safely ignore","Vishing; the code is your MFA code and must never be shared","A test you should pass by cooperating quickly"],a:2,
+  e:"Internal detail is researched, not proof. No genuine helpdesk needs your one-time code, ever."},
+ {q:"You realise you entered your password on a fake page ten minutes ago. What matters most?",
+  o:["Waiting to see whether anything actually happens","Deleting the email so no one else clicks it","Reporting it to security immediately and changing the password","Running an antivirus scan and carrying on if it is clean"],a:2,
+  e:"Attackers act within minutes. Fast reporting is what turns a large incident into a small one, and nobody is punished for it."},
+ {q:"Which message pattern should you refuse regardless of who appears to have sent it?",
+  o:["A meeting invitation with an agenda attached","A request to buy gift cards and send the codes, kept confidential","A shared document notification from a project you are on","An alert about a sign-in from a new device"],a:1,
+  e:"Gift-card codes are untraceable cash and no company buys them this way. Secrecy plus payment is the signature of the scam."},
+ {q:"A QR code appears in a PDF invoice, promising a faster payment portal. Why is this risky?",
+  o:["QR codes always carry viruses","It hides the destination and often moves you to a personal phone with fewer protections","QR codes cannot be used with HTTPS","Only printed QR codes are dangerous"],a:1,
+  e:"Quishing works by routing you past mail filters and managed-device controls onto a screen where the address is hard to inspect."},
+ {q:"Your colleague clicked a phishing link last week and is too embarrassed to say so. What is the best advice?",
+  o:["Nothing happened yet, so leave it","Report it now — delayed reporting is what turns small incidents into breaches","Just change the password quietly and say nothing","Wait for the next security training and mention it then"],a:1,
+  e:"Attackers often sit quietly before acting. Late is far better than never, and blame-free reporting is what keeps an organisation safe."}
+];
+var qi=0,qScore=0,qEl=document.getElementById("quiz");
+function renderQ(){
+  if(qi>=Q.length){
+    var pass=qScore>=8;
+    qEl.innerHTML='<p class="qnum ui">Result</p>'+
+      '<p class="score ui">'+qScore+'<small> / 10</small></p>'+
+      '<p style="margin:6px 0 14px;">'+(pass
+        ? "Passed. You can identify the sender tricks, the link tricks, and the pressure tactics — now keep the habits from Lesson 7 in daily use."
+        : "Not passed yet. Go back through Lessons 2 to 5, then retake this — the eight correct answers you need are all covered there.")+'</p>'+
+      '<div class="choices"><button class="btn solid ui" id="retry" type="button">Retake the quiz</button>'+
+      '<button class="btn ui" id="review" type="button">Review Lesson 7</button></div>';
+    document.getElementById("retry").addEventListener("click",function(){qi=0;qScore=0;renderQ();});
+    document.getElementById("review").addEventListener("click",function(){go(6);});
+    state.best=Math.max(state.best||0,qScore); save(state); markDone(8);
+    return;
+  }
+  var q=Q[qi];
+  qEl.innerHTML='<p class="qnum ui">Question '+(qi+1)+' of 10 · '+qScore+' correct so far</p>'+
+    '<p class="qtext">'+q.q+'</p><div class="opts"></div><div class="v"></div>';
+  var box=qEl.querySelector(".opts");
+  q.o.forEach(function(text,k){
+    var b=document.createElement("button");
+    b.type="button"; b.className="opt"; b.textContent=text;
+    b.addEventListener("click",function(){
+      var all=[].slice.call(box.querySelectorAll(".opt"));
+      all.forEach(function(x){x.disabled=true;});
+      all[q.a].classList.add("right");
+      var ok=k===q.a;
+      if(ok){qScore++;} else {b.classList.add("wrong");}
+      var v=qEl.querySelector(".v");
+      v.className="v verdict "+(ok?"good":"bad");
+      v.innerHTML="<b>"+(ok?"Correct.":"Not quite.")+"</b> "+q.e+
+        '<div class="choices" style="margin-top:12px;"><button class="btn solid ui" id="qnext" type="button">'+
+        (qi===9?"See my result":"Next question")+'</button></div>';
+      document.getElementById("qnext").addEventListener("click",function(){qi++;renderQ();});
+    });
+    box.appendChild(b);
+  });
+}
+renderQ();
+
+/* restore last position */
+if(typeof state.last==="number" && state.last>0 && state.last<9){go(state.last,false);}
+})();
+</script>
+</body>
+</html>
